@@ -2,7 +2,7 @@
 
 ### Prerequisites
 - `PowerShell` should be installed (v7.3.2 or more recent is fine).
-- `Azure CosmosDB Account` You should have an Azure CosmosDB Account and be able to get its primary/secondary key.
+- `CosmosDB Account` You should have an Azure CosmosDB Account and be able to get its primary/secondary key.
 - `Collection` You should have a CosmosDB collection created.
 
 
