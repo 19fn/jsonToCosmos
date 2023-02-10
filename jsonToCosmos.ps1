@@ -8,7 +8,8 @@
                       -Key 'CosmosDB Primary/Secondary key' \
                       -Collection 'Collection/Container name' \
                       -Database 'Database name' \
-                      -File 'Path to json file'
+                      -File 'Path to json file' \
+                      -PartitionKey 'key'
 .NOTES
     Author: Federico N Cabrera
     Date:   February 8, 2023    
@@ -23,9 +24,16 @@ param (
     [string]$Collection,
     [Parameter(Mandatory=$True)]
     [string]$Database,
-    [Parameter(Mandatory=$True)]
-    [string]$File
+    [Parameter(Mandatory=$False)]
+    [string]$File,
+    [Parameter(Mandatory=$False)]
+    [string]$PartitionKey
 )
+
+# Install module
+if  (-Not (Get-Module -ListAvailable -Name CosmosDB)){
+    Install-Module -Name CosmosDB
+}
 
 # Target collection
 $collectionName = $Collection
@@ -34,22 +42,34 @@ $collectionName = $Collection
 $primaryKey = ConvertTo-SecureString -String $Key -AsPlainText -Force
 $cosmosDbContext = New-CosmosDbContext -Account $Name -Database $Database -Key $primaryKey  
 
-# Path to json file
-$json = Get-Content $File | Out-String | ConvertFrom-Json
+if ($File -and $PartitionKey){
+    # Path to json file
+    $json = Get-Content $File | Out-String | ConvertFrom-Json
 
-$documents = (Get-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionName)
+    $documents = (Get-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionName)
 
-foreach($item in $json){
-    $document = $item | ConvertTo-Json | Out-String
-    $id = $item.id
+    Write-Output ""
+    foreach($item in $json){
+        $document = $item | ConvertTo-Json | Out-String
+        $id = $item.id
+        if ($item.$PartitionKey){
+            $pk = $item.$PartitionKey
+        }
+        else{
+            Write-Output "`n[!] Error: invalid PartitionKey.`n"
+            exit
+        }
 
-    if ($documents.id -eq $id) 
-    {
-        Write-Output "`n[!] Document with id: [$id] already exist."
+        if ($documents.id -eq $id){
+            Write-Output "[!] Document with id: '$id' already exist."
+        }
+        else{
+            New-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionName -DocumentBody $document -PartitionKey $pk
+        }
     }
-    else 
-    {
-        New-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionName -DocumentBody $document -PartitionKey $id
-        Write-Output "`n[+] Document with id: [$id] created."
-    }
+    Write-Output ""
 }
+else{
+    Get-CosmosDbDocument -Context $cosmosDbContext -CollectionId $collectionName
+}
+
