@@ -28,10 +28,10 @@ The script will load the collections defined in the json file to the desired dat
 ```pwsh
 
     # Show existing collection in CosmosDB
-      jsonToCosmos -Name 'myCosmosDBAccount' \
-                   -Key 'xxxxyyyyzzzz' \
-                   -Collection 'mycollection' \
-                   -Database 'mydatabase'  
+    jsonToCosmos -Name 'myCosmosDBAccount' \
+                 -Key 'xxxxyyyyzzzz' \
+                 -Collection 'mycollection' \
+                 -Database 'mydatabase'  
                    
                    
     # Upload JSON collection to CosmosDB
