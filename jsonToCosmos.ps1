@@ -1,15 +1,15 @@
 <#
 .SYNOPSIS
-    Powershell script to upload .json collection to cosmos db account
+    Powershell script that works with Az modules to upload JSON documents to a collection in Azure CosmosDB Account
 .DESCRIPTION
-    The script work with a collection defined in json, to upload each item to the database in CosmosDB 
+    The script works with Az and CosmosDB modules. It will get existing documents in a collection or upload each documents to a collection. 
 .EXAMPLE
     jsonToCosmos -Name 'CosmosDB name' `
-                      -Key 'CosmosDB Primary/Secondary key' `
-                      -Collection 'Collection/Container name' `
+                      -Key 'CosmosDB Account Primary key' `
+                      -Collection 'Collection name' `
                       -Database 'Database name' `
-                      -File 'Path to json file' `
-                      -PartitionKey 'key'
+                      -File 'Path/to/json/file' `
+                      -PartitionKey 'Partition key'
 .NOTES
     Author: Federico N Cabrera
     Date:   February 8, 2023    
