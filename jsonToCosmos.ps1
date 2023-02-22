@@ -67,7 +67,7 @@ if ($File -and $PartitionKey){
             exit
         }
         if ($documents.id -eq $id){
-            Write-Output "[!] Warning: id '$id' already exist."
+            Write-Output "[!] Warning: '$id' already exist."
         }
         else{
             New-CosmosDbDocument -Context $cosmosDbContext `
