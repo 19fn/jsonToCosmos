@@ -28,16 +28,16 @@ The script will load the documents defined in the json file to the desired colle
 ### Show existing documents in a collection
 ```pwsh
     jsonToCosmos.ps1 -Name 'CosmosDBAccount' `
-                 -Key 'xxxxyyyyzzzz' `
-                 -Collection 'collection' `
-                 -Database 'database'                
+                     -Key 'xxxxyyyyzzzz' `
+                     -Collection 'collection' `
+                     -Database 'database'                
 ```
 ### Upload documents to a collection
 ```pwsh
     jsonToCosmos.ps1 -Name 'CosmosDBAccount' `
-                 -Key 'xxxxyyyyzzzz' `
-                 -Collection 'collection' `
-                 -Database 'database' `
-                 -File '/Path/to/Json/file' `
-                 -PartitionKey 'xyz'		 
+                     -Key 'xxxxyyyyzzzz' `
+                     -Collection 'collection' `
+                     -Database 'database' `
+                     -File '/Path/to/Json/file' `
+                     -PartitionKey 'xyz'		 
 ```
